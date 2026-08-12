@@ -1,4 +1,4 @@
-name: Generate Travel Short Audio
+name: Generate Travel Short Video
 
 on:
   issues:
@@ -16,19 +16,20 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Install System & Python Dependencies
         run: |
-          pip install gTTS
+          sudo apt-get update && sudo apt-get install -y ffmpeg imagemagick
+          pip install gTTS moviepy
 
-      - name: Generate Short Audio
+      - name: Generate Short Video
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           python script.py
 
-      - name: Upload Audio Artifact
+      - name: Upload Video Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: travel-audio
-          path: travel_short.mp3
+          name: travel-short-video
+          path: travel_short.mp4
